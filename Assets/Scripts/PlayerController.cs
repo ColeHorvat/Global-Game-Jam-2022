@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public GameObject playerG;
     //Ground Layer Mask
     public LayerMask ground;
+    public LayerMask body;
     
     private Transform GroundCheck;
     
@@ -43,8 +44,9 @@ public class PlayerController : MonoBehaviour
     {
         //UnityEngine.Debug.Log(rb2d.velocity.y);
         //Get User Input and Movement
-        if (Input.GetKey("right"))
+        if (Input.GetKey("right") || Input.GetKey(KeyCode.D))
         {
+            animator.SetBool("isRunning", true);
             if(!isFacingRight)
                 transform.eulerAngles = new Vector3(0, 180, 0);
             
@@ -52,11 +54,13 @@ public class PlayerController : MonoBehaviour
             rb2d.velocity = new Vector2(runSpeed, rb2d.velocity.y);
 
             //animator.SetFloat("Speed", 1, 0.1f, Time.deltaTime);
+            
 
             
         }
-        else if (Input.GetKey("left"))
+        else if (Input.GetKey("left") || Input.GetKey(KeyCode.A))
         {
+            animator.SetBool("isRunning", true);
             if(isFacingRight)
                 transform.eulerAngles = new Vector3(0, 0, 0);
             
@@ -64,13 +68,16 @@ public class PlayerController : MonoBehaviour
             rb2d.velocity = new Vector2(-runSpeed, rb2d.velocity.y);
 
             //animator.SetFloat("Speed", 1, 0.1f, Time.deltaTime);
+            
 
         }
         else
         {
+            animator.SetBool("isRunning", false);
             rb2d.velocity = new Vector2(0, rb2d.velocity.y);
 
             // animator.SetFloat("Speed", 0, 0.1f, Time.deltaTime);
+            
         }
         
         //Get Space Input and Jump
@@ -91,7 +98,7 @@ public class PlayerController : MonoBehaviour
 
         //Ground Check
         groundHit = Physics2D.Linecast(transform.position, GroundCheck.position, ground);
-        bodyHit = Physics2D.Linecast(transform.position, GroundCheck.position, 7); //Change to layermask
+        bodyHit = Physics2D.Linecast(transform.position, GroundCheck.position, body); //Change to layermask
         
         if (groundHit.collider != null || bodyHit.collider != null)
         {

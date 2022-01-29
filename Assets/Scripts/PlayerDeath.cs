@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerDeath : MonoBehaviour
 {
@@ -38,28 +39,29 @@ public class PlayerDeath : MonoBehaviour
             
             UnityEngine.Debug.Log(this.gameObject);
             isDead = true;
-            if (other.gameObject.CompareTag("Spikes"))
+            if (other.gameObject.CompareTag("Spikes") && !playerOldController.isSoul)
             {
-                if (!playerOldController.isSoul)
-                {
-                    UnityEngine.Debug.Log("SPIKES");
-                    Quaternion playerRot = playerOld.transform.rotation;
 
-                    rb2d.velocity = new Vector2(0, 0);
-                    rb2d.freezeRotation = false;
-                    playerOld.transform.rotation = Quaternion.Euler(new Vector3(playerRot.x, playerRot.y, 90));
-                    rb2d.freezeRotation = true;
-                }
+                UnityEngine.Debug.Log("SPIKES");
+                Quaternion playerRot = playerOld.transform.rotation;
 
+                rb2d.velocity = new Vector2(0, 0);
+                rb2d.freezeRotation = false;
+                playerOld.transform.rotation = Quaternion.Euler(new Vector3(playerRot.x, playerRot.y, 90));
+                rb2d.freezeRotation = true;
             }
-            
-            
 
-            
+            if (playerOldController.isSoul)
+            {
+                //Handle soul death (Go back to checkpoint)
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
 
             playerNew = Instantiate(playerPrefab, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Quaternion.identity);
             
             playerOldController.enabled = false;
+            Destroy(playerOld.GetComponent<PlayerGrab>());
+            playerOld.GetComponent<PowerRevive>().enabled = false;
             playerOld.GetComponent<Animator>().enabled = false;
             playerOld.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
             playerOld.layer = 7; //Change to layermask later

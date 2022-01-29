@@ -517,12 +517,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1897857728, guid: eea22dc28eb6be744894dbc3e3f60268, type: 3}
+      propertyPath: throwPower
+      value: 0.025
+      objectReference: {fileID: 0}
+    - target: {fileID: 1897857728, guid: eea22dc28eb6be744894dbc3e3f60268, type: 3}
       propertyPath: body.m_Bits
       value: 128
       objectReference: {fileID: 0}
     - target: {fileID: 3210656424895268403, guid: eea22dc28eb6be744894dbc3e3f60268, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3210656424895268406, guid: eea22dc28eb6be744894dbc3e3f60268, type: 3}
+      propertyPath: body.m_Bits
+      value: 128
       objectReference: {fileID: 0}
     - target: {fileID: 3210656424895268407, guid: eea22dc28eb6be744894dbc3e3f60268, type: 3}
       propertyPath: m_RootOrder

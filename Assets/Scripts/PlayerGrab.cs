@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,9 +14,13 @@ public class PlayerGrab : MonoBehaviour
     private Rigidbody2D rb2d;
     public LayerMask bodyLayer;
     private RaycastHit2D hit;
-    private GameObject bodyObject;
+    public GameObject bodyObject;
     private float distance;
     private GameObject grabPoint;
+    private Vector2 mouseWorldPosition;
+    private Vector2 lookDir;
+
+    public float throwPower;
     
     // Start is called before the first frame update
     void Start()
@@ -31,15 +36,12 @@ public class PlayerGrab : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        lookDir = mouseWorldPosition - rb2d.position;
         if (Input.GetMouseButton(0) && playerController.isSoul)
         {
             //UnityEngine.Debug.Log("IDIOT");
 
-
-            Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 lookDir = mouseWorldPosition - rb2d.position;
-            
             Debug.DrawRay(transform.position, lookDir, Color.red, 0f);
 
             hit = Physics2D.Linecast(transform.position, mouseWorldPosition, bodyLayer);
@@ -50,7 +52,7 @@ public class PlayerGrab : MonoBehaviour
 
                 if (distance < 5f)
                 {
-                    bodyObject.GetComponent<BoxCollider2D>().enabled = false;
+                    bodyObject.GetComponent<BoxCollider2D>().isTrigger = true;
                     bodyObject.GetComponent<Rigidbody2D>().isKinematic = true;
                     bodyObject.transform.position = grabPoint.transform.position;
                     bodyObject.transform.parent = grabPoint.transform;
@@ -61,8 +63,20 @@ public class PlayerGrab : MonoBehaviour
             {
                 Debug.Log("Nothing");
             }
-            
-            
         }
+
+        if (Input.GetMouseButton(1))
+        {
+            bodyObject.transform.parent = null;
+            bodyObject.GetComponent<Rigidbody2D>().isKinematic = false;
+            bodyObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+            bodyObject.GetComponent<BoxCollider2D>().isTrigger = false;
+            bodyObject.GetComponent<Rigidbody2D>().AddForce(lookDir * throwPower, ForceMode2D.Impulse);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        bodyObject.GetComponent<BoxCollider2D>().isTrigger = false;
     }
 }
