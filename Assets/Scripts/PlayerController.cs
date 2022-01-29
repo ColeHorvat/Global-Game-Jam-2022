@@ -28,7 +28,8 @@ public class PlayerController : MonoBehaviour
     private bool isFacingRight;
     public bool isSoul;
 
-    internal RaycastHit2D hit;
+    internal RaycastHit2D groundHit;
+    internal RaycastHit2D bodyHit;
 
     // Start is called before the first frame update
     void Start()
@@ -44,21 +45,26 @@ public class PlayerController : MonoBehaviour
         //Get User Input and Movement
         if (Input.GetKey("right"))
         {
+            if(!isFacingRight)
+                transform.eulerAngles = new Vector3(0, 180, 0);
+            
             isFacingRight = true;
             rb2d.velocity = new Vector2(runSpeed, rb2d.velocity.y);
 
             //animator.SetFloat("Speed", 1, 0.1f, Time.deltaTime);
+
             
         }
         else if (Input.GetKey("left"))
         {
+            if(isFacingRight)
+                transform.eulerAngles = new Vector3(0, 0, 0);
+            
             isFacingRight = false;
             rb2d.velocity = new Vector2(-runSpeed, rb2d.velocity.y);
 
             //animator.SetFloat("Speed", 1, 0.1f, Time.deltaTime);
-            
-            //transform.eulerAngles = new Vector3(0, 180, 0);
-            
+
         }
         else
         {
@@ -84,10 +90,10 @@ public class PlayerController : MonoBehaviour
         }
 
         //Ground Check
-        hit = Physics2D.Linecast(transform.position, GroundCheck.position, ground);
+        groundHit = Physics2D.Linecast(transform.position, GroundCheck.position, ground);
+        bodyHit = Physics2D.Linecast(transform.position, GroundCheck.position, 7); //Change to layermask
         
-        
-        if (hit.collider != null)
+        if (groundHit.collider != null || bodyHit.collider != null)
         {
             isGrounded = true;
         }

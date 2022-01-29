@@ -28,7 +28,7 @@ public class PowerRevive : MonoBehaviour
         if (other.name == "Revive" && playerController.isSoul)
         {
             playerController.isSoul = false;
-            spriteRenderer.color = Color.green;
+            spriteRenderer.color = Color.white;
             Destroy(other.gameObject);
         }
     }
