@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,8 +13,7 @@ public class PlayerController : MonoBehaviour
     public GameObject playerG;
     //Ground Layer Mask
     public LayerMask ground;
-
-    [SerializeField]
+    
     private Transform GroundCheck;
     
     private bool isGrounded;
@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     {
         animator = playerG.GetComponentInChildren<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
+        GroundCheck = this.gameObject.transform.GetChild(0);
     }
 
     private void Update()
@@ -84,7 +85,8 @@ public class PlayerController : MonoBehaviour
 
         //Ground Check
         hit = Physics2D.Linecast(transform.position, GroundCheck.position, ground);
-
+        
+        
         if (hit.collider != null)
         {
             isGrounded = true;
