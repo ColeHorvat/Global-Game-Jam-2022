@@ -47,6 +47,8 @@ GameObject:
   - component: {fileID: 533950958}
   - component: {fileID: 533950959}
   - component: {fileID: 1897857728}
+  - component: {fileID: 7224483003394811614}
+  - component: {fileID: 1036151049691490207}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -203,6 +205,9 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 8
+  body:
+    serializedVersion: 2
+    m_Bits: 0
   runSpeed: 6
   jumpHeight: 12
   fCutJumpHeight: 0.5
@@ -219,8 +224,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa9faaa85fcb3764e98684c282d542f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerOld: {fileID: 3210656424895268403}
-  playerOldController: {fileID: 3210656424895268406}
+  playerCurrent: {fileID: 0}
+  playerCurrentController: {fileID: 0}
   playerPrefab: {fileID: 3210656424895268403}
 --- !u!114 &533950959
 MonoBehaviour:
@@ -250,6 +255,32 @@ MonoBehaviour:
   bodyLayer:
     serializedVersion: 2
     m_Bits: 128
+  bodyObject: {fileID: 0}
+  throwPower: 0
+--- !u!114 &7224483003394811614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3210656424895268403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556b6041a82b11546b5b149df9250060, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1036151049691490207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3210656424895268403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e155688136db6c444a550b4ee3a5f237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4039960498552954411
 GameObject:
   m_ObjectHideFlags: 0
