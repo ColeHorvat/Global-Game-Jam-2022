@@ -28,7 +28,7 @@ public class TimerController : MonoBehaviour
             if (timer < 0)
             {
                 //Timer is functional
-                playerDeath.KillSoul();
+                //playerDeath.KillSoul();
             }
         }
     }

@@ -24,6 +24,9 @@ public class PlayerDeath : MonoBehaviour
     
     public static Vector2 lastBodyPos;
 
+
+    public GameObject deathSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -131,6 +134,9 @@ public class PlayerDeath : MonoBehaviour
         Destroy(currentPlayerDeath);
 
         lastBodyPos = playerCurrent.transform.position;
+
+        var dS = Instantiate(deathSound, transform.position, Quaternion.identity);
+        GameObject.Destroy(dS, 4);
 
         if (!playerCurrentController.isGrounded)
         {

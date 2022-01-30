@@ -19,6 +19,10 @@ public class PlayerGrab : MonoBehaviour
     private GameObject grabPoint;
     private Vector2 mouseWorldPosition;
     private Vector2 lookDir;
+    private bool bodyIsHeld;
+
+    private const float MIN_THROW_X = 8.7f;
+    private const float MIN_THROW_Y = 1.2f;
 
     public float throwPower;
     
@@ -31,6 +35,7 @@ public class PlayerGrab : MonoBehaviour
         bodyLayer = LayerMask.GetMask("Body");
         grabPoint = playerG.transform.GetChild(1).gameObject;
         playerCollider = GetComponent<BoxCollider2D>();
+        bodyIsHeld = false;
     }
 
     // Update is called once per frame
@@ -63,7 +68,7 @@ public class PlayerGrab : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButtonDown(1) && bodyIsHeld)
         {
             ThrowBody();
         }
@@ -78,18 +83,64 @@ public class PlayerGrab : MonoBehaviour
     
     private void GrabBody()
     {
+        
+        //TODO: Rotate body
+        
+        bodyObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         bodyObject.GetComponent<BoxCollider2D>().isTrigger = true;
         bodyObject.GetComponent<Rigidbody2D>().isKinematic = true;
         bodyObject.transform.position = grabPoint.transform.position;
         bodyObject.transform.parent = grabPoint.transform;
+        bodyIsHeld = true;
     }
 
     private void ThrowBody()
     {
+        Vector2 throwDistance = lookDir * throwPower;
+
+
+        if (throwDistance.x < MIN_THROW_X && throwDistance.x > -MIN_THROW_X)
+        {
+            if (throwDistance.x <= 0)
+            {
+                throwDistance.x = -MIN_THROW_X;
+            }
+            else
+            {
+                throwDistance.x = MIN_THROW_X;
+            }
+        }
+        
+        if (throwDistance.y < MIN_THROW_Y && throwDistance.y > -MIN_THROW_Y)
+        {
+            if (throwDistance.y <= 0)
+            {
+                throwDistance.y = -MIN_THROW_Y;
+            }
+            else
+            {
+                throwDistance.y = MIN_THROW_Y;
+            }
+        }
+
+
+
+            if (throwDistance.y < MIN_THROW_Y)
+            throwDistance.y = MIN_THROW_Y;
+
+        Debug.Log(throwDistance);
+        
         bodyObject.transform.parent = null;
         bodyObject.GetComponent<Rigidbody2D>().isKinematic = false;
         bodyObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
         bodyObject.GetComponent<BoxCollider2D>().isTrigger = false;
-        bodyObject.GetComponent<Rigidbody2D>().AddForce(lookDir * throwPower, ForceMode2D.Impulse);
+        bodyObject.GetComponent<Rigidbody2D>().AddForce(throwDistance, ForceMode2D.Impulse);
+        bodyIsHeld = false;
+    }
+
+    public void DestroyBody()
+    {
+        if(bodyObject)
+            Destroy(bodyObject);
     }
 }

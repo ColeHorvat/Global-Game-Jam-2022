@@ -144,6 +144,7 @@ public class PlayerController : MonoBehaviour
             fJumpPressedRemember = 0;
             fGroundedRemember = 0;
             rb2d.velocity = new Vector2(rb2d.velocity.x, jumpHeight);
+            GetComponent<PlayerSounds>().Jump();
             //animator.Play("jump_animation")
         }
     }

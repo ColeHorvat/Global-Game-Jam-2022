@@ -9,6 +9,7 @@ public class PowerRevive : MonoBehaviour
     private PlayerController playerController;
     private SpriteRenderer spriteRenderer;
     private TimerController timerController;
+    private PlayerGrab playerGrab;
     
     // Start is called before the first frame update
     void Start()
@@ -17,6 +18,8 @@ public class PowerRevive : MonoBehaviour
         playerController = playerG.GetComponent<PlayerController>();
         spriteRenderer = playerG.GetComponent<SpriteRenderer>();
         timerController = GetComponent<TimerController>();
+        playerGrab = GetComponent<PlayerGrab>();
+
     }
 
     // Update is called once per frame
@@ -39,5 +42,6 @@ public class PowerRevive : MonoBehaviour
         playerController.isSoul = false;
         spriteRenderer.color = Color.white;
         timerController.TimerStop();
+        playerGrab.DestroyBody();
     }
 }
