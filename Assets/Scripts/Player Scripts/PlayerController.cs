@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //Get seperate soul input
-        if (Input.GetKeyDown(KeyCode.Q) && !isSoul)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isSoul)
         {
             playerDeath.MakeNewPlayer();
         }

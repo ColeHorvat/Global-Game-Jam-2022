@@ -10,6 +10,10 @@ TagManager:
   - Teleport
   - Revive
   - TimerReset
+  - Body
+  - Canvas
+  - Fog
+  - Moving Platform
   layers:
   - Default
   - TransparentFX

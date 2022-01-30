@@ -31,6 +31,9 @@ public class PowerTeleport : MonoBehaviour
             transform.position = new Vector2(lastBodyPos.x, lastBodyPos.y + 0.1f);
             
             playerGrab.DestroyBody();
+            
+            other.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            other.gameObject.GetComponent<SpriteRenderer>().enabled = false;
         }
     }
 }

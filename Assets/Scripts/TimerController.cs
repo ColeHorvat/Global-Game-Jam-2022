@@ -5,7 +5,7 @@ using UnityEngine;
 public class TimerController : MonoBehaviour
 {
     
-    const float TIMER_MAX = 10f;
+    public float TIMER_MAX = 10f;
 
     public float timer;
 
@@ -28,7 +28,7 @@ public class TimerController : MonoBehaviour
             if (timer < 0)
             {
                 //Timer is functional
-                //playerDeath.KillSoul();
+                playerDeath.KillSoul();
             }
         }
     }

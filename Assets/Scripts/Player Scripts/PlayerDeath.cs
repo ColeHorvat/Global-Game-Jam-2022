@@ -21,10 +21,11 @@ public class PlayerDeath : MonoBehaviour
     private PlayerGrab currentPlayerGrab;
     private PowerRevive currentPowerRevive;
     private PlayerDeath currentPlayerDeath;
+    private BoxCollider2D currentPlayerCollider;
     
     public static Vector2 lastBodyPos;
 
-
+    public Material deadManMat;
     public GameObject deathSound;
 
     // Start is called before the first frame update
@@ -41,6 +42,7 @@ public class PlayerDeath : MonoBehaviour
         currentPlayerGrab = GetComponent<PlayerGrab>();
         currentPowerRevive = GetComponent<PowerRevive>();
         currentPlayerDeath = GetComponent<PlayerDeath>();
+        currentPlayerCollider = GetComponent<BoxCollider2D>();
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -61,11 +63,12 @@ public class PlayerDeath : MonoBehaviour
                 
                 MakeNewPlayer();
             }
-
-            if (playerCurrentController.isSoul)
-            {
-                KillSoul();
-            }
+        }
+        
+        if (other.gameObject.layer == 6 && isDead && playerCurrentController.isSoul)
+        {
+            Debug.Log("AAAAAHHHH");
+            KillSoul();
         }
     }
 
@@ -87,7 +90,10 @@ public class PlayerDeath : MonoBehaviour
         //Handle soul death (Go back to checkpoint)
         if (CheckpointController.lastCheckpointPos != Vector2.zero)
         {
+            playerCurrentCheckpointController.ResetObjects();
+            
             playerCurrent.transform.position = CheckpointController.lastCheckpointPos;
+            isDead = false;
             powerRevive.Revive();
         }
         //Handle object reset
@@ -110,12 +116,15 @@ public class PlayerDeath : MonoBehaviour
         PlayerController playerNewController = playerNew.GetComponent<PlayerController>();
         TimerController playerNewTimerController = playerNew.GetComponent<TimerController>();
         
-                //Set New Player Components
+        //Set New Player Components
         playerNewDeath.isDead = false;
         playerNewRb2d.freezeRotation = true;
-        playerNewSpriteRenderer.color = Color.cyan;
+        playerNewSpriteRenderer.material = deadManMat;
         playerNewController.isSoul = true;
         playerNewTimerController.TimerStart();
+
+        GameObject.FindGameObjectWithTag("Canvas").GetComponent<InGameUIController>().timeCon = playerNewTimerController;
+        GameObject.FindGameObjectWithTag("Fog").GetComponent<FollowPlayer>().SetTarget(playerNewDeath.gameObject.transform);
 
         playerCamera.Follow = playerNew.transform;
     }
@@ -130,8 +139,12 @@ public class PlayerDeath : MonoBehaviour
         rb2d.constraints =
             RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         playerCurrent.layer = 7; //Change to layermask later
-        Destroy(playerCurrentCheckpointController);
+        //Destroy(playerCurrentCheckpointController);
         Destroy(currentPlayerDeath);
+        playerCurrent.tag = "Body";
+        currentPlayerCollider.sharedMaterial = null;
+        rb2d.sharedMaterial = null;
+        
 
         lastBodyPos = playerCurrent.transform.position;
 

@@ -83,15 +83,17 @@ public class PlayerGrab : MonoBehaviour
     
     private void GrabBody()
     {
-        
-        //TODO: Rotate body
-        
-        bodyObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        bodyObject.GetComponent<BoxCollider2D>().isTrigger = true;
-        bodyObject.GetComponent<Rigidbody2D>().isKinematic = true;
-        bodyObject.transform.position = grabPoint.transform.position;
-        bodyObject.transform.parent = grabPoint.transform;
-        bodyIsHeld = true;
+        if (grabPoint.transform.childCount == 0)
+        {
+            Quaternion playerRot = bodyObject.transform.rotation;
+            bodyObject.transform.rotation = Quaternion.Euler(new Vector3(playerRot.x, playerRot.y, 90));
+            bodyObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            bodyObject.GetComponent<BoxCollider2D>().isTrigger = true;
+            bodyObject.GetComponent<Rigidbody2D>().isKinematic = true;
+            bodyObject.transform.position = grabPoint.transform.position;
+            bodyObject.transform.parent = grabPoint.transform;
+            bodyIsHeld = true;
+        }
     }
 
     private void ThrowBody()
@@ -140,7 +142,10 @@ public class PlayerGrab : MonoBehaviour
 
     public void DestroyBody()
     {
-        if(bodyObject)
-            Destroy(bodyObject);
+        if (grabPoint.transform.childCount > 0)
+        {
+            Transform currentHeldBody = grabPoint.transform.GetChild(0);
+            Destroy(currentHeldBody.gameObject);
+        }
     }
 }

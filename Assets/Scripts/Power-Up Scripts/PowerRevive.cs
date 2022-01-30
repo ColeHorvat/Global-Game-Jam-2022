@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class PowerRevive : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class PowerRevive : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private TimerController timerController;
     private PlayerGrab playerGrab;
+
+    public Material liveManMat;
     
     // Start is called before the first frame update
     void Start()
@@ -33,14 +36,16 @@ public class PowerRevive : MonoBehaviour
         if (other.CompareTag("Revive") && playerController.isSoul)
         {
             Revive();
-            Destroy(other.gameObject);
+            other.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            other.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            other.gameObject.GetComponent<Light2D>().enabled = false;
         }
     }
 
     public void Revive()
     {
         playerController.isSoul = false;
-        spriteRenderer.color = Color.white;
+        spriteRenderer.material = liveManMat;
         timerController.TimerStop();
         playerGrab.DestroyBody();
     }

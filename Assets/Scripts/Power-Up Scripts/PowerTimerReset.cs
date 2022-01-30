@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class PowerTimerReset : MonoBehaviour
 {
@@ -30,7 +31,9 @@ public class PowerTimerReset : MonoBehaviour
         if (other.CompareTag("TimerReset") && playerController.isSoul)
         {
             timerController.TimerReset();
-            Destroy(other.gameObject);
+            other.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            other.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            other.gameObject.GetComponent<Light2D>().enabled = false;
         }
     }
 }
