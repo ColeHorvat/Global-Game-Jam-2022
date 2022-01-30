@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 1897857728}
   - component: {fileID: 7224483003394811614}
   - component: {fileID: 1036151049691490207}
+  - component: {fileID: 8217027999561430381}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -207,7 +208,7 @@ MonoBehaviour:
     m_Bits: 8
   body:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   runSpeed: 6
   jumpHeight: 12
   fCutJumpHeight: 0.5
@@ -256,7 +257,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   bodyObject: {fileID: 0}
-  throwPower: 0
+  throwPower: 0.025
 --- !u!114 &7224483003394811614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +282,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e155688136db6c444a550b4ee3a5f237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: 0
+  timerGoing: 0
+--- !u!114 &8217027999561430381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3210656424895268403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70af210ec057ba74da56e6e1d08f7eae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerG: {fileID: 0}
 --- !u!1 &4039960498552954411
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,7 +309,7 @@ GameObject:
   m_Layer: 0
   m_Name: Grab Point
   m_TagString: Untagged
-  m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

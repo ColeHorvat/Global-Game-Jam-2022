@@ -7,6 +7,9 @@ TagManager:
   - Ground
   - Spikes
   - Checkpoint
+  - Teleport
+  - Revive
+  - TimerReset
   layers:
   - Default
   - TransparentFX
@@ -41,6 +44,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 3844518799
+    locked: 0
+  - name: Mid
+    uniqueID: 3524506515
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Foreground
+    uniqueID: 2837452671
     locked: 0
