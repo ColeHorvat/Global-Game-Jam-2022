@@ -45,7 +45,7 @@ public class PlayerGrab : MonoBehaviour
         lookDir = mouseWorldPosition - rb2d.position;
         if (Input.GetMouseButton(0) && playerController.isSoul)
         {
-            //UnityEngine.Debug.Log("IDIOT");
+//            UnityEngine.Debug.Log("IDIOT");
 
             Debug.DrawRay(transform.position, lookDir, Color.red, 0f);
 
@@ -64,7 +64,7 @@ public class PlayerGrab : MonoBehaviour
             }
             else
             {
-                Debug.Log("Nothing");
+//                Debug.Log("Nothing");
             }
         }
 
@@ -130,7 +130,7 @@ public class PlayerGrab : MonoBehaviour
             if (throwDistance.y < MIN_THROW_Y)
             throwDistance.y = MIN_THROW_Y;
 
-        Debug.Log(throwDistance);
+//        Debug.Log(throwDistance);
         
         bodyObject.transform.parent = null;
         bodyObject.GetComponent<Rigidbody2D>().isKinematic = false;

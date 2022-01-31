@@ -8,6 +8,12 @@ public class PowerTeleport : MonoBehaviour
     private PlayerController playerController;
 
     private PlayerGrab playerGrab;
+
+    private bool isGettingBodyPos;
+
+    private Vector2 linkedBodyPos;
+
+    public GameObject linkedBody;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,16 +25,17 @@ public class PowerTeleport : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (linkedBody)
+            linkedBodyPos = linkedBody.transform.position;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Teleport") && playerController.isSoul)
         {
-            Vector2 lastBodyPos = PlayerDeath.lastBodyPos;
+            
 
-            transform.position = new Vector2(lastBodyPos.x, lastBodyPos.y + 0.1f);
+            transform.position = new Vector2(linkedBodyPos.x, linkedBodyPos.y + 1f);
             
             playerGrab.DestroyBody();
             

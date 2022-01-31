@@ -18,6 +18,8 @@ public class Parallax : MonoBehaviour {
     }
 	
     void Update () {
+
+
         if (distanceX != 0f) {
             float parallaxX = (previousCamPos.x - cam.position.x) * distanceX;
             Vector3 backgroundTargetPosX = new Vector3(transform.position.x + parallaxX, 

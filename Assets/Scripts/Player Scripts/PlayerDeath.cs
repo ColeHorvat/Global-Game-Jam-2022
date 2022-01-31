@@ -50,16 +50,21 @@ public class PlayerDeath : MonoBehaviour
         //Enter "Death" layer
         if (other.gameObject.layer == 6 && !isDead)
         {
+            Debug.Log(other.gameObject);
             isDead = true;
-            if (other.gameObject.CompareTag("Spikes") && !playerCurrentController.isSoul)
+            if (other.gameObject.CompareTag("Spikes") && !playerCurrentController.isSoul && isDead)
             {
                 Quaternion playerRot = playerCurrent.transform.rotation;
-
+                //Debug.Log(gameObject);
                 rb2d.velocity = new Vector2(0, 0);
                 rb2d.freezeRotation = false;
                 
                 playerCurrent.transform.rotation = Quaternion.Euler(new Vector3(playerRot.x, playerRot.y, 90));
+                playerCurrent.transform.position = new Vector2(playerCurrent.transform.position.x,
+                    playerCurrent.transform.position.y + 0.1f);
                 rb2d.freezeRotation = true;
+                playerCurrent.transform.parent = other.transform;
+                //playerCurrent.transform.localScale = new Vector3(0.15f, 0.15f, 1f);
                 
                 MakeNewPlayer();
             }
@@ -67,7 +72,7 @@ public class PlayerDeath : MonoBehaviour
         
         if (other.gameObject.layer == 6 && isDead && playerCurrentController.isSoul)
         {
-            Debug.Log("AAAAAHHHH");
+            //Debug.Log("AAAAAHHHH");
             KillSoul();
         }
     }
@@ -90,11 +95,12 @@ public class PlayerDeath : MonoBehaviour
         //Handle soul death (Go back to checkpoint)
         if (CheckpointController.lastCheckpointPos != Vector2.zero)
         {
-            playerCurrentCheckpointController.ResetObjects();
+            
             
             playerCurrent.transform.position = CheckpointController.lastCheckpointPos;
             isDead = false;
             powerRevive.Revive();
+            playerCurrentCheckpointController.ResetObjects();
         }
         //Handle object reset
         else
@@ -115,12 +121,15 @@ public class PlayerDeath : MonoBehaviour
         SpriteRenderer playerNewSpriteRenderer = playerNew.GetComponent<SpriteRenderer>();
         PlayerController playerNewController = playerNew.GetComponent<PlayerController>();
         TimerController playerNewTimerController = playerNew.GetComponent<TimerController>();
+        PowerTeleport playerNewTeleport = playerNew.GetComponent<PowerTeleport>();
         
         //Set New Player Components
+        playerNew.transform.localScale = new Vector3(0.15f, 0.15f, 1f);
         playerNewDeath.isDead = false;
         playerNewRb2d.freezeRotation = true;
         playerNewSpriteRenderer.material = deadManMat;
         playerNewController.isSoul = true;
+        playerNewTeleport.linkedBody = playerCurrent;
         playerNewTimerController.TimerStart();
 
         GameObject.FindGameObjectWithTag("Canvas").GetComponent<InGameUIController>().timeCon = playerNewTimerController;
@@ -132,19 +141,21 @@ public class PlayerDeath : MonoBehaviour
     private void DeactivateCurrentPlayer()
     {
         //Set Current Player Components
+        //playerCurrent.transform.parent = null;
         playerCurrentController.enabled = false;
         Destroy(currentPlayerGrab);
         currentPowerRevive.enabled = false;
         playerCurrentAnimator.SetBool("isDead", true);
         rb2d.constraints =
-            RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+            RigidbodyConstraints2D.FreezeRotation;
+        //RigidbodyConstraints2D.FreezePositionX | 
         playerCurrent.layer = 7; //Change to layermask later
         //Destroy(playerCurrentCheckpointController);
         Destroy(currentPlayerDeath);
         playerCurrent.tag = "Body";
         currentPlayerCollider.sharedMaterial = null;
         rb2d.sharedMaterial = null;
-        
+
 
         lastBodyPos = playerCurrent.transform.position;
 

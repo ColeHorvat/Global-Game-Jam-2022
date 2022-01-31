@@ -14,6 +14,8 @@ TagManager:
   - Canvas
   - Fog
   - Moving Platform
+  - Invisible Platform
+  - Next Scene
   layers:
   - Default
   - TransparentFX

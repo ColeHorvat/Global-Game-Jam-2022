@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class DoorController : MonoBehaviour
 {
+    BoxCollider2D collider;
+    SpriteRenderer spriteRenderer;
     // Start is called before the first frame update
     void Start()
     {
-        
+        collider = gameObject.GetComponent<BoxCollider2D>();
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -19,13 +22,30 @@ public class DoorController : MonoBehaviour
 
     public void OpenDoor()
     {
-        gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        if (gameObject.CompareTag("Invisible Platform"))
+        {
+            collider.enabled = true;
+            spriteRenderer.color = new Color(1f,1f,1f,1f);
+        }
+        else
+        {
+            collider.enabled = false;
+            spriteRenderer.color = new Color(1f,1f,1f,0.35f);
+        }
+
     }
 
     public void CloseDoor()
     {
-        gameObject.GetComponent<BoxCollider2D>().enabled = true;
-        gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        if (gameObject.CompareTag("Invisible Platform"))
+        {
+            collider.enabled = false;
+            spriteRenderer.color = new Color(1f,1f,1f,0.35f);
+        }
+        else
+        {
+            collider.enabled = true;
+            spriteRenderer.color = new Color(1f,1f,1f,1f);
+        }
     }
 }

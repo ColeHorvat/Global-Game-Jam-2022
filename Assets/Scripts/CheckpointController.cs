@@ -30,7 +30,7 @@ public class CheckpointController : MonoBehaviour
         {
             //Handle going over checkpoint
             
-            Debug.Log(isActivated);
+//            Debug.Log(isActivated);
             lastCheckpointPos = other.transform.position;
             
             other.gameObject.GetComponent<BoxCollider2D>().enabled = false;
@@ -48,15 +48,17 @@ public class CheckpointController : MonoBehaviour
         GameObject[] teleports = GameObject.FindGameObjectsWithTag("Teleport");
         GameObject[] timerResets = GameObject.FindGameObjectsWithTag("TimerReset");
         GameObject[] movingPlatforms = GameObject.FindGameObjectsWithTag("Moving Platform");
-
+        
         foreach (var body in activeBodies)
             Destroy(body);
 
         foreach (var platform in movingPlatforms)
         {
+            //Debug.Log(platform);
             MovingPlatformController platformController = platform.GetComponent<MovingPlatformController>();
             platformController.isLifting = false;
             platform.transform.position = platformController.startPoint.position;
+            platformController.newPosition = platformController.startPoint.position;
         }
 
         EnableObjects(revives);
